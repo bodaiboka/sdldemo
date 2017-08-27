@@ -57,6 +57,19 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		cout << "load textures fail\n";
 		return false;
 	}
+	cout << "load game objects...\n";
+	m_gameObject = new GameObject();
+	m_player = new Player();
+	m_enemy = new Enemy();
+
+	m_player->load(100, 100, 128, 128, CAT_TEXTURE);
+	m_gameObject->load(250, 310, 128, 128, CAT_TEXTURE);
+	m_enemy->load(0, 0, 128, 128, CAT_TEXTURE);
+
+	m_gameObjects.push_back(m_player);
+	m_gameObjects.push_back(m_gameObject);
+	m_gameObjects.push_back(m_enemy);
+
 	m_bRunning = true;
 	return true;
 }
@@ -79,7 +92,11 @@ void Game::handleEvents()
 
 void Game::update()
 {
-	m_currentFrame = int(((SDL_GetTicks() / 70) % 6));
+	for (GameObject* object : m_gameObjects)
+	{
+		object->update();
+	}
+	//m_currentFrame = int(((SDL_GetTicks() / 70) % 6));
 }
 
 void Game::render()
@@ -91,8 +108,13 @@ void Game::render()
 	//SDL_RenderCopy(m_pRenderer, m_pTexture, &m_sourceRect, &m_destinationRect);
 	//SDL_RenderCopy(m_pRenderer, m_pTexture, 0, 0);
 	//SDL_RenderCopyEx(m_pRenderer, m_pTexture, &m_sourceRect, &m_destinationRect, 0, 0, SDL_FLIP_HORIZONTAL);
-	TextureManager::Instance()->draw(CAT_TEXTURE, 0, 0, 128, 128, m_pRenderer);
-	TextureManager::Instance()->drawFrame(CAT_TEXTURE, 300, 160, 128, 128, 0, m_currentFrame, m_pRenderer);
+	//TextureManager::Instance()->draw(CAT_TEXTURE, 0, 0, 128, 128, m_pRenderer);
+	//TextureManager::Instance()->drawFrame(CAT_TEXTURE, 300, 160, 128, 128, 0, m_currentFrame, m_pRenderer);
+
+	for (GameObject* object : m_gameObjects)
+	{
+		object->draw(m_pRenderer);
+	}
 
 
 	// show the window

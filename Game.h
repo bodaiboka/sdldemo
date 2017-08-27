@@ -3,6 +3,10 @@
 #include <iostream>
 #include <SDL_image.h>
 #include "TextureManager.h"
+#include "Player.h"
+#include "Enemy.h"
+#include <vector>
+
 using namespace std;
 
 class Game
@@ -23,6 +27,10 @@ private:
 	SDL_Window* m_pWindow;
 	SDL_Renderer* m_pRenderer;
 	const std::string CAT_TEXTURE = "cat-alpha-texture";
+	GameObject* m_gameObject;
+	GameObject* m_player;
+	GameObject* m_enemy;
+	std::vector<GameObject*> m_gameObjects;
 };
 
 
