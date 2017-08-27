@@ -1,6 +1,7 @@
 #include "Player.h"
 
-Player::Player()
+Player::Player(const LoaderParams* pParams) :
+	SDLGameObject(pParams)
 {
 }
 
@@ -8,14 +9,9 @@ Player::~Player()
 {
 }
 
-void Player::load(int x, int y, int width, int height, std::string textureId)
+void Player::draw()
 {
-	GameObject::load(x, y, width, height, textureId);
-}
-
-void Player::draw(SDL_Renderer * pRenderer)
-{
-	GameObject::draw(pRenderer);
+	SDLGameObject::draw();
 }
 
 void Player::update()

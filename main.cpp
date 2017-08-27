@@ -1,20 +1,26 @@
 #include "Game.h"
 #include <Windows.h>
-
-Game* g_pGame = 0;
+using namespace std;
 
 int main(int argc, char* args[])
 {
-	g_pGame = new Game();
-	g_pGame->init("Hello SDL2", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, false);
-	while (g_pGame->running())
+	if (Game::Instance()->init("Hello SDL2", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, false))
 	{
-		g_pGame->handleEvents();
-		g_pGame->update();
-		g_pGame->render();
-		SDL_Delay(60);
+		while (Game::Instance()->running())
+		{
+			Game::Instance()->handleEvents();
+			Game::Instance()->update();
+			Game::Instance()->render();
+			SDL_Delay(60);
+		}
 	}
-	g_pGame->clean();
+	else
+	{
+		cout << "Game init failure - " << SDL_GetError() << endl;
+		return -1;
+	}
+	cout << "Game closing...\n";
+	Game::Instance()->clean();
 	return 0;
 }
 

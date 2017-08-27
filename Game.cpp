@@ -1,5 +1,5 @@
 #include "Game.h"
-
+using namespace std;
 Game::Game()
 {
 }
@@ -7,6 +7,8 @@ Game::Game()
 Game::~Game()
 {
 }
+
+Game* Game::s_pInstance = 0;
 
 bool Game::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
@@ -58,17 +60,9 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		return false;
 	}
 	cout << "load game objects...\n";
-	m_gameObject = new GameObject();
-	m_player = new Player();
-	m_enemy = new Enemy();
-
-	m_player->load(100, 100, 128, 128, CAT_TEXTURE);
-	m_gameObject->load(250, 310, 128, 128, CAT_TEXTURE);
-	m_enemy->load(0, 0, 128, 128, CAT_TEXTURE);
-
-	m_gameObjects.push_back(m_player);
-	m_gameObjects.push_back(m_gameObject);
-	m_gameObjects.push_back(m_enemy);
+	m_gameObjects.push_back(new Player(new LoaderParams(100, 100, 128, 128, CAT_TEXTURE)));
+	m_gameObjects.push_back(new Enemy(new LoaderParams(100, 100, 128, 128, CAT_TEXTURE)));
+	m_gameObjects.push_back(new Enemy(new LoaderParams(200, 0, 128, 128, CAT_TEXTURE)));
 
 	m_bRunning = true;
 	return true;
@@ -113,7 +107,7 @@ void Game::render()
 
 	for (GameObject* object : m_gameObjects)
 	{
-		object->draw(m_pRenderer);
+		object->draw();
 	}
 
 
