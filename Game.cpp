@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "InputHandler.h"
 using namespace std;
 Game::Game()
 {
@@ -64,24 +65,15 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	m_gameObjects.push_back(new Enemy(new LoaderParams(100, 100, 128, 128, CAT_TEXTURE)));
 	m_gameObjects.push_back(new Enemy(new LoaderParams(200, 0, 128, 128, CAT_TEXTURE)));
 
+	TheInputHandler::Instance()->initialiseJoysticks();
+
 	m_bRunning = true;
 	return true;
 }
 
 void Game::handleEvents()
 {
-	SDL_Event event;
-	if (SDL_PollEvent(&event))
-	{
-		switch (event.type)
-		{
-		case SDL_QUIT:
-			m_bRunning = false;
-			break;
-		default:
-			break;
-		}
-	}
+	TheInputHandler::Instance()->update();
 }
 
 void Game::update()
@@ -119,5 +111,11 @@ void Game::clean()
 {
 	SDL_DestroyWindow(m_pWindow);
 	SDL_DestroyRenderer(m_pRenderer);
+	TheInputHandler::Instance()->clean();
 	SDL_Quit();
+}
+
+void Game::quit()
+{
+	m_bRunning = false;
 }
