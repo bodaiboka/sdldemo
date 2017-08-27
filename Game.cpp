@@ -47,6 +47,14 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		return false;
 	}
 	cout << "init success";
+	SDL_Surface* pTempSurface = SDL_LoadBMP("assets/ffv.bmp");
+	m_pTexture = SDL_CreateTextureFromSurface(m_pRenderer, pTempSurface);
+	SDL_FreeSurface(pTempSurface);
+	SDL_QueryTexture(m_pTexture, NULL, NULL, &m_sourceRect.w, &m_sourceRect.h);
+	m_destinationRect.x = m_sourceRect.x = 0;
+	m_destinationRect.y = m_sourceRect.y = 0;
+	m_destinationRect.w = m_sourceRect.w;
+	m_destinationRect.h = m_sourceRect.h;
 	m_bRunning = true;
 	return true;
 }
@@ -71,6 +79,9 @@ void Game::render()
 {
 	// clear the window to drawColor
 	SDL_RenderClear(m_pRenderer);
+
+	// draw texture
+	SDL_RenderCopy(m_pRenderer, m_pTexture, &m_sourceRect, &m_destinationRect);
 
 	// show the window
 	SDL_RenderPresent(m_pRenderer);
