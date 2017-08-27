@@ -48,9 +48,14 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	}
 	cout << "init success\n";
 	cout << "load textures...\n";
-	if (m_TextureManager.load("assets/cat-alpha.png", CAT_TEXTURE, m_pRenderer))
+	if (TextureManager::Instance()->load("assets/cat-alpha.png", CAT_TEXTURE, m_pRenderer))
 	{
 		cout << "load textures success\n";
+	}
+	else
+	{
+		cout << "load textures fail\n";
+		return false;
 	}
 	m_bRunning = true;
 	return true;
@@ -86,8 +91,8 @@ void Game::render()
 	//SDL_RenderCopy(m_pRenderer, m_pTexture, &m_sourceRect, &m_destinationRect);
 	//SDL_RenderCopy(m_pRenderer, m_pTexture, 0, 0);
 	//SDL_RenderCopyEx(m_pRenderer, m_pTexture, &m_sourceRect, &m_destinationRect, 0, 0, SDL_FLIP_HORIZONTAL);
-	m_TextureManager.draw(CAT_TEXTURE, 0, 0, 128, 128, m_pRenderer);
-	m_TextureManager.drawFrame(CAT_TEXTURE, 300, 160, 128, 128, 0, m_currentFrame, m_pRenderer);
+	TextureManager::Instance()->draw(CAT_TEXTURE, 0, 0, 128, 128, m_pRenderer);
+	TextureManager::Instance()->drawFrame(CAT_TEXTURE, 300, 160, 128, 128, 0, m_currentFrame, m_pRenderer);
 
 
 	// show the window

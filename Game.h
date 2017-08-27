@@ -22,7 +22,6 @@ private:
 	int m_currentFrame;
 	SDL_Window* m_pWindow;
 	SDL_Renderer* m_pRenderer;
-	TextureManager m_TextureManager;
 	const std::string CAT_TEXTURE = "cat-alpha-texture";
 };
 

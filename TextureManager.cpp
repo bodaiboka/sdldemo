@@ -8,6 +8,18 @@ TextureManager::~TextureManager()
 {
 }
 
+TextureManager* TextureManager::Instance()
+{
+	if (s_pInstance == 0)
+	{
+		s_pInstance = new TextureManager();
+		return s_pInstance;
+	}
+	return s_pInstance;
+}
+
+TextureManager* TextureManager::s_pInstance = 0;
+
 bool TextureManager::load(std::string fileName, std::string id, SDL_Renderer * pRenderer)
 {
 	SDL_Surface* pTempSurface = IMG_Load(fileName.c_str());
