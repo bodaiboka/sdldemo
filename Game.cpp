@@ -1,5 +1,5 @@
 #include "Game.h"
-
+#include <math.h>
 Game::Game()
 {
 }
@@ -16,7 +16,7 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		cout << "SDL init success\n";
 		int flags = (fullscreen ? SDL_WINDOW_FULLSCREEN : 0);
 		// init our window
-		m_pWindow = SDL_CreateWindow("Hello SDL2", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, flags);
+		m_pWindow = SDL_CreateWindow("Hello SDL2", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
 
 		if (m_pWindow !=0)
 		{
@@ -27,7 +27,7 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 			if (m_pRenderer != 0)
 			{
 				cout << "renderer creation success\n";
-				SDL_SetRenderDrawColor(m_pRenderer, 255, 0, 0, 255);
+				SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255);
 			}
 			else
 			{
@@ -47,14 +47,16 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		return false;
 	}
 	cout << "init success";
-	SDL_Surface* pTempSurface = SDL_LoadBMP("assets/ffv.bmp");
+	SDL_Surface* pTempSurface = SDL_LoadBMP("assets/cat.bmp");
 	m_pTexture = SDL_CreateTextureFromSurface(m_pRenderer, pTempSurface);
 	SDL_FreeSurface(pTempSurface);
 	SDL_QueryTexture(m_pTexture, NULL, NULL, &m_sourceRect.w, &m_sourceRect.h);
 	m_destinationRect.x = m_sourceRect.x = 0;
-	m_destinationRect.y = m_sourceRect.y = 0;
-	m_destinationRect.w = m_sourceRect.w;
-	m_destinationRect.h = m_sourceRect.h;
+	m_sourceRect.y = 0;
+	m_destinationRect.y = 160;
+	m_sourceRect.y = 0;
+	m_destinationRect.w = m_sourceRect.w = 128;
+	m_destinationRect.h = m_sourceRect.h = 128;
 	m_bRunning = true;
 	return true;
 }
@@ -75,13 +77,20 @@ void Game::handleEvents()
 	}
 }
 
+void Game::update()
+{
+	m_sourceRect.x = 128 * int(((SDL_GetTicks() / 100) % 6));
+}
+
 void Game::render()
 {
 	// clear the window to drawColor
 	SDL_RenderClear(m_pRenderer);
 
 	// draw texture
-	SDL_RenderCopy(m_pRenderer, m_pTexture, &m_sourceRect, &m_destinationRect);
+	//SDL_RenderCopy(m_pRenderer, m_pTexture, &m_sourceRect, &m_destinationRect);
+	//SDL_RenderCopy(m_pRenderer, m_pTexture, 0, 0);
+	SDL_RenderCopyEx(m_pRenderer, m_pTexture, &m_sourceRect, &m_destinationRect, 0, 0, SDL_FLIP_HORIZONTAL);
 
 	// show the window
 	SDL_RenderPresent(m_pRenderer);
