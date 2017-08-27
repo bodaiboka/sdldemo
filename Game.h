@@ -1,6 +1,8 @@
 #pragma once
 #include <SDL.h>
 #include <iostream>
+#include <SDL_image.h>
+#include "TextureManager.h"
 using namespace std;
 
 class Game
@@ -17,12 +19,11 @@ public:
 
 private:
 	bool m_bRunning;
+	int m_currentFrame;
 	SDL_Window* m_pWindow;
 	SDL_Renderer* m_pRenderer;
-	SDL_Texture* m_pTexture;
-	SDL_Rect m_sourceRect;
-	SDL_Rect m_destinationRect;
-
+	TextureManager m_TextureManager;
+	const std::string CAT_TEXTURE = "cat-alpha-texture";
 };
 
 

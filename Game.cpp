@@ -1,5 +1,5 @@
 #include "Game.h"
-#include <math.h>
+
 Game::Game()
 {
 }
@@ -27,7 +27,7 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 			if (m_pRenderer != 0)
 			{
 				cout << "renderer creation success\n";
-				SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255);
+				SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 255, 255);
 			}
 			else
 			{
@@ -46,17 +46,12 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		// SDL could not initialize
 		return false;
 	}
-	cout << "init success";
-	SDL_Surface* pTempSurface = SDL_LoadBMP("assets/cat.bmp");
-	m_pTexture = SDL_CreateTextureFromSurface(m_pRenderer, pTempSurface);
-	SDL_FreeSurface(pTempSurface);
-	SDL_QueryTexture(m_pTexture, NULL, NULL, &m_sourceRect.w, &m_sourceRect.h);
-	m_destinationRect.x = m_sourceRect.x = 0;
-	m_sourceRect.y = 0;
-	m_destinationRect.y = 160;
-	m_sourceRect.y = 0;
-	m_destinationRect.w = m_sourceRect.w = 128;
-	m_destinationRect.h = m_sourceRect.h = 128;
+	cout << "init success\n";
+	cout << "load textures...\n";
+	if (m_TextureManager.load("assets/cat-alpha.png", CAT_TEXTURE, m_pRenderer))
+	{
+		cout << "load textures success\n";
+	}
 	m_bRunning = true;
 	return true;
 }
@@ -79,7 +74,7 @@ void Game::handleEvents()
 
 void Game::update()
 {
-	m_sourceRect.x = 128 * int(((SDL_GetTicks() / 100) % 6));
+	m_currentFrame = int(((SDL_GetTicks() / 70) % 6));
 }
 
 void Game::render()
@@ -90,7 +85,10 @@ void Game::render()
 	// draw texture
 	//SDL_RenderCopy(m_pRenderer, m_pTexture, &m_sourceRect, &m_destinationRect);
 	//SDL_RenderCopy(m_pRenderer, m_pTexture, 0, 0);
-	SDL_RenderCopyEx(m_pRenderer, m_pTexture, &m_sourceRect, &m_destinationRect, 0, 0, SDL_FLIP_HORIZONTAL);
+	//SDL_RenderCopyEx(m_pRenderer, m_pTexture, &m_sourceRect, &m_destinationRect, 0, 0, SDL_FLIP_HORIZONTAL);
+	m_TextureManager.draw(CAT_TEXTURE, 0, 0, 128, 128, m_pRenderer);
+	m_TextureManager.drawFrame(CAT_TEXTURE, 300, 160, 128, 128, 0, m_currentFrame, m_pRenderer);
+
 
 	// show the window
 	SDL_RenderPresent(m_pRenderer);
