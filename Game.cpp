@@ -8,14 +8,15 @@ Game::~Game()
 {
 }
 
-bool Game::init(const char* title, int xpos, int ypos, int width, int height, int flags)
+bool Game::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
 	// Init SDL
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
 	{
 		cout << "SDL init success\n";
+		int flags = (fullscreen ? SDL_WINDOW_FULLSCREEN : 0);
 		// init our window
-		m_pWindow = SDL_CreateWindow("Hello SDL2", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_SHOWN);
+		m_pWindow = SDL_CreateWindow("Hello SDL2", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, flags);
 
 		if (m_pWindow !=0)
 		{
