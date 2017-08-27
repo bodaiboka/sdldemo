@@ -1,4 +1,5 @@
 #include "Game.h"
+#include <Windows.h>
 
 Game* g_pGame = 0;
 
