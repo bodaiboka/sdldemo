@@ -51,7 +51,9 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	}
 	cout << "init success\n";
 	cout << "load textures...\n";
-	if (TextureManager::Instance()->load("assets/cat-alpha.png", CAT_TEXTURE, m_pRenderer))
+	if (TextureManager::Instance()->load("assets/cat-alpha.png", CAT_TEXTURE, m_pRenderer) &&
+		TextureManager::Instance()->load("assets/ffvsmall.png", BOT_TEXTURE, m_pRenderer) &&
+		TextureManager::Instance()->load("assets/background.png", BACKGROUND, m_pRenderer))
 	{
 		cout << "load textures success\n";
 	}
@@ -61,13 +63,18 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		return false;
 	}
 	cout << "load game objects...\n";
+
+	m_gameObjects.push_back(new SDLGameObject(new LoaderParams(0, 0, 800, 600, BACKGROUND)));
+	m_gameObjects.push_back(new Enemy(new LoaderParams(100, 100, 120, 120, BOT_TEXTURE)));
 	m_gameObjects.push_back(new Player(new LoaderParams(100, 100, 128, 128, CAT_TEXTURE)));
-	m_gameObjects.push_back(new Enemy(new LoaderParams(100, 100, 128, 128, CAT_TEXTURE)));
-	m_gameObjects.push_back(new Enemy(new LoaderParams(200, 0, 128, 128, CAT_TEXTURE)));
+	m_gameObjects.push_back(new Enemy(new LoaderParams(200, 0, 120, 120, BOT_TEXTURE)));
 
 	TheInputHandler::Instance()->initialiseJoysticks();
 
 	m_bRunning = true;
+
+	cout << "Press arrows to move the cat!\n";
+
 	return true;
 }
 

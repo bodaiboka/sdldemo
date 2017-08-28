@@ -9,6 +9,7 @@ SDLGameObject::SDLGameObject(const LoaderParams* pParams) :
 	m_textureId = pParams->getTextureId();
 	m_currentFrame = 0;
 	m_currentRow = 0;
+	m_bHorizontalFlip = false;
 }
 
 SDLGameObject::~SDLGameObject()
@@ -17,7 +18,7 @@ SDLGameObject::~SDLGameObject()
 
 void SDLGameObject::draw()
 {
-	TextureManager::Instance()->drawFrame(m_textureId, m_position.getX(), m_position.getY(), m_width, m_height, m_currentRow, m_currentFrame, Game::Instance()->getRenderer());
+	TextureManager::Instance()->drawFrame(m_textureId, m_position.getX(), m_position.getY(), m_width, m_height, m_currentRow, m_currentFrame, Game::Instance()->getRenderer(), (m_bHorizontalFlip)?SDL_FLIP_HORIZONTAL:SDL_FLIP_NONE);
 }
 
 void SDLGameObject::update()

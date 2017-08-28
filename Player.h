@@ -11,5 +11,8 @@ public:
 	void update();
 	void clean();
 
+private:
+	const float VELOCITY = 3.0f;
+
 };
 

@@ -18,10 +18,25 @@ void InputHandler::update()
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 	{
+		switch (event.type)
+		{
+		case SDL_QUIT:
+			Game::Instance()->quit();
+			break;
+		case SDL_KEYDOWN:
+			onKeydown();
+			break;
+		case SDL_KEYUP:
+			onKeyUp();
+			break;
+		default:
+			break;
+		}
 		if (event.type == SDL_QUIT)
 		{
-			Game::Instance()->quit();
+			
 		}
+
 	}
 }
 
@@ -29,7 +44,7 @@ void InputHandler::clean()
 {
 	if (m_bJoysticksInitialised)
 	{
-		for (unsigned int i = 0; i < SDL_NumJoysticks(); i++)
+		for (int i = 0; i < SDL_NumJoysticks(); i++)
 		{
 			SDL_JoystickClose(m_joysticks[i]);
 		}
@@ -66,4 +81,20 @@ void InputHandler::initialiseJoysticks()
 		std::cout << "No joysticks connected\n";
 		m_bJoysticksInitialised = false;
 	}
+}
+
+bool InputHandler::isKeyDown(SDL_Scancode key)
+{
+	if (m_keystate != 0)
+	{
+		if (m_keystate[key] == 1)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	return false;
 }

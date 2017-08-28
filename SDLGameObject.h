@@ -20,6 +20,7 @@ protected:
 	int m_height;
 	int m_currentFrame;
 	int m_currentRow;
+	bool m_bHorizontalFlip;
 	std::string m_textureId;
 };
 

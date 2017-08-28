@@ -39,6 +39,8 @@ private:
 	SDL_Window* m_pWindow;
 	SDL_Renderer* m_pRenderer;
 	const std::string CAT_TEXTURE = "cat-alpha-texture";
+	const std::string BOT_TEXTURE = "bot_texture";
+	const std::string BACKGROUND = "background";
 	std::vector<GameObject*> m_gameObjects;
 };
 
