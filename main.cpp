@@ -9,7 +9,7 @@ int main(int argc, char* args[])
 {
 	Uint32 framesStart, frameTime;
 
-	if (Game::Instance()->init("Hello SDL2", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, true))
+	if (Game::Instance()->init("Hello SDL2", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false))
 	{
 		while (Game::Instance()->running())
 		{

@@ -1,5 +1,7 @@
 #include "Game.h"
 #include "InputHandler.h"
+#include "MenuState.h"
+#include "PlayState.h"
 using namespace std;
 Game::Game()
 {
@@ -50,45 +52,35 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		return false;
 	}
 	cout << "init success\n";
-	cout << "load textures...\n";
-	if (TextureManager::Instance()->load("assets/cat-alpha.png", CAT_TEXTURE, m_pRenderer) &&
-		TextureManager::Instance()->load("assets/ffvsmall.png", BOT_TEXTURE, m_pRenderer) &&
-		TextureManager::Instance()->load("assets/background.png", BACKGROUND, m_pRenderer))
-	{
-		cout << "load textures success\n";
-	}
-	else
-	{
-		cout << "load textures fail\n";
-		return false;
-	}
-	cout << "load game objects...\n";
-
-	m_gameObjects.push_back(new SDLGameObject(new LoaderParams(0, 0, 800, 600, BACKGROUND)));
-	m_gameObjects.push_back(new Enemy(new LoaderParams(100, 100, 120, 120, BOT_TEXTURE)));
-	m_gameObjects.push_back(new Player(new LoaderParams(100, 100, 128, 128, CAT_TEXTURE)));
-	m_gameObjects.push_back(new Enemy(new LoaderParams(200, 0, 120, 120, BOT_TEXTURE)));
+	
+	m_pGameStateMachine = new GameStateMachine();
+	m_pGameStateMachine->changeState(new MenuState());
 
 	TheInputHandler::Instance()->initialiseJoysticks();
 
 	m_bRunning = true;
-
-	cout << "Press arrows to move the cat!\n";
-
 	return true;
 }
 
 void Game::handleEvents()
 {
 	TheInputHandler::Instance()->update();
+
+	if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_RETURN))
+	{
+		m_pGameStateMachine->changeState(new PlayState());
+	}
 }
 
 void Game::update()
 {
+	m_pGameStateMachine->update();
+	/*
 	for (GameObject* object : m_gameObjects)
 	{
 		object->update();
 	}
+	*/
 	//m_currentFrame = int(((SDL_GetTicks() / 70) % 6));
 }
 
@@ -104,10 +96,14 @@ void Game::render()
 	//TextureManager::Instance()->draw(CAT_TEXTURE, 0, 0, 128, 128, m_pRenderer);
 	//TextureManager::Instance()->drawFrame(CAT_TEXTURE, 300, 160, 128, 128, 0, m_currentFrame, m_pRenderer);
 
+	/*
 	for (GameObject* object : m_gameObjects)
 	{
 		object->draw();
 	}
+	*/
+
+	m_pGameStateMachine->render();
 
 
 	// show the window

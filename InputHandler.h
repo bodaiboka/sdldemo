@@ -16,6 +16,13 @@ public:
 	}
 	~InputHandler();
 
+	enum mouse_buttons
+	{
+		LEFT = 0,
+		MIDDLE = 1,
+		RIGHT = 2
+	};
+
 	void update();
 	void clean();
 	void initialiseJoysticks();
@@ -23,12 +30,18 @@ public:
 	void onKeydown() { m_keystate = SDL_GetKeyboardState(0); }
 	void onKeyUp() { m_keystate = SDL_GetKeyboardState(0); }
 	bool isKeyDown(SDL_Scancode key);
+	Vector2D* getMousePosition();
+	bool getMouseButtonState(int buttonNumber);
 
 private:
 	InputHandler();
 	static InputHandler* s_pInstane;
 	std::vector<SDL_Joystick*> m_joysticks;
+	std::vector<bool> m_mouseButtonStates;
 	bool m_bJoysticksInitialised;
 	const Uint8* m_keystate;
+	Vector2D* m_mousePosition;
+
+	
 };
 typedef InputHandler TheInputHandler;

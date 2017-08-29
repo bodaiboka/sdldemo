@@ -7,6 +7,7 @@
 #include "TextureManager.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "GameStateMachine.h"
 
 class Game
 {
@@ -29,18 +30,17 @@ public:
 	void quit();
 	bool running() { return m_bRunning; }
 	SDL_Renderer* getRenderer() const { return m_pRenderer; }
+	GameStateMachine* getStateMachine() { return m_pGameStateMachine; }
 
 private:
 	Game();
+	GameStateMachine* m_pGameStateMachine;
 	static Game* s_pInstance;
 	typedef Game TheGame;
 	bool m_bRunning;
 	int m_currentFrame;
 	SDL_Window* m_pWindow;
 	SDL_Renderer* m_pRenderer;
-	const std::string CAT_TEXTURE = "cat-alpha-texture";
-	const std::string BOT_TEXTURE = "bot_texture";
-	const std::string BACKGROUND = "background";
 	std::vector<GameObject*> m_gameObjects;
 };
 
