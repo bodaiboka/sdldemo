@@ -18,6 +18,14 @@ void Heli::draw()
 
 void Heli::update()
 {
+	if (m_velocity.getX() >= 0)
+	{
+		m_bHorizontalFlip = false;
+	}
+	else
+	{
+		m_bHorizontalFlip = true;
+	}
 	m_currentRow = int(((SDL_GetTicks() / 100) % 4));
 	handleInput();
 	SDLGameObject::update();
