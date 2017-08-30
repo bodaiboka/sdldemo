@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "MenuButton.h"
 #include "PlayState.h"
+#include "HeliState.h"
 
 const std::string MenuState::s_menuId = "MENU";
 
@@ -44,11 +45,18 @@ bool MenuState::onEnter()
 		return false;
 	}
 
-	GameObject* button1 = new MenuButton(new LoaderParams(100, 100, 400, 100, "PLAY_BUTTON"), s_menuToPlay);
-	GameObject* button2 = new MenuButton(new LoaderParams(100, 300, 400, 100, "EXIT_BUTTON"), s_exitFromMenu);
+	if (!TextureManager::Instance()->load("assets/helibutton.png", "HELI_BUTTON", Game::Instance()->getRenderer()))
+	{
+		return false;
+	}
+
+	GameObject* button1 = new MenuButton(new LoaderParams(100, 50, 400, 100, "PLAY_BUTTON"), s_menuToPlay);
+	GameObject* button2 = new MenuButton(new LoaderParams(100, 250, 400, 100, "HELI_BUTTON"), s_menuToHeli);
+	GameObject* button3 = new MenuButton(new LoaderParams(100, 450, 400, 100, "EXIT_BUTTON"), s_exitFromMenu);
 
 	m_gameObjects.push_back(button1);
 	m_gameObjects.push_back(button2);
+	m_gameObjects.push_back(button3);
 
 	std::cout << "entering menuState\n";
 	return true;
@@ -63,7 +71,7 @@ bool MenuState::onExit()
 	m_gameObjects.clear();
 	TextureManager::Instance()->clearFromTextureMap("PLAY_BUTTON");
 	TextureManager::Instance()->clearFromTextureMap("EXIT_BUTTON");
-
+	TextureManager::Instance()->clearFromTextureMap("HELI_BUTTON");
 	std::cout << "exiting menuState\n";
 	return true;
 }
@@ -78,4 +86,10 @@ void MenuState::s_exitFromMenu()
 {
 	std::cout << "exit button clicked\n";
 	Game::Instance()->quit();
+}
+
+void MenuState::s_menuToHeli()
+{
+	std::cout << "Heli button clicked\n";
+	Game::Instance()->getStateMachine()->changeState(new HeliState());
 }

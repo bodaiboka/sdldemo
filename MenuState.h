@@ -22,5 +22,6 @@ private:
 	std::vector<GameObject*> m_gameObjects;
 	static void s_menuToPlay();
 	static void s_exitFromMenu();
+	static void s_menuToHeli();
 };
 
