@@ -1,5 +1,5 @@
 #include "GameStateMachine.h"
-
+#include <iostream>
 
 
 GameStateMachine::GameStateMachine()
@@ -37,12 +37,15 @@ void GameStateMachine::changeState(GameState * pState)
 
 void GameStateMachine::popState()
 {
+	std::cout << "popstate\n";
 	if (!m_gameStates.empty())
 	{
-		if (!m_gameStates.back()->onExit())
+		std::cout << "popstate is not empty\n";
+		if (m_gameStates.back()->onExit())
 		{
 			delete m_gameStates.back();
 			m_gameStates.pop_back();
+			m_gameStates.back()->onEnter();
 		}
 	}
 }

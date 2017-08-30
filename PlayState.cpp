@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "InputHandler.h"
 #include "MenuState.h"
+#include "PauseState.h"
 
 const std::string PlayState::s_playId = "PLAY";
 
@@ -26,7 +27,7 @@ void PlayState::update()
 	}
 	if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_ESCAPE))
 	{
-		Game::Instance()->getStateMachine()->changeState(new MenuState());
+		Game::Instance()->getStateMachine()->pushState(new PauseState());
 	}
 }
 

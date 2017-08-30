@@ -145,3 +145,11 @@ bool InputHandler::getMouseButtonState(int buttonNumber)
 {
 	return m_mouseButtonStates[buttonNumber];
 }
+
+void InputHandler::reset()
+{
+	for (int i = 0; i < 3; i++)
+	{
+		m_mouseButtonStates.push_back(false);
+	}
+}
