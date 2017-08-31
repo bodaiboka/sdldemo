@@ -17,6 +17,8 @@ public:
 
 	virtual std::string getStateId() const { return s_heliId; }
 
+	bool checkCollision(SDLGameObject* p1, SDLGameObject* p2);
+
 private:
 	static const std::string s_heliId;
 	std::vector<GameObject*> m_gameObjects;
