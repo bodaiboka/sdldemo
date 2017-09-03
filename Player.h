@@ -10,6 +10,7 @@ public:
 	void draw();
 	void update();
 	void clean();
+	void handleInput();
 
 private:
 	const float VELOCITY = 3.0f;

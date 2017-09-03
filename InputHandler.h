@@ -33,8 +33,12 @@ public:
 	Vector2D* getMousePosition();
 	bool getMouseButtonState(int buttonNumber);
 	void reset();
+	int getJoyXValue(int joy, int stick);
+	int getJoyYValue(int joy, int stick);
 
 private:
+	const int m_joystickDeadZone = 10000;
+
 	InputHandler();
 	static InputHandler* s_pInstane;
 	std::vector<SDL_Joystick*> m_joysticks;
@@ -42,7 +46,8 @@ private:
 	bool m_bJoysticksInitialised;
 	const Uint8* m_keystate;
 	Vector2D* m_mousePosition;
-
+	std::vector<std::pair<Vector2D*, Vector2D*>> m_joystickValues;
 	
+
 };
 typedef InputHandler TheInputHandler;
