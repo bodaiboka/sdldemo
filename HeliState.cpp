@@ -3,16 +3,14 @@
 #include "Game.h"
 #include "GameOverState.h"
 #include "InputHandler.h"
-#include "MenuState.h"
-
-
+#include "MainMenuState.h"
+#include "StateParser.h"
 
 const std::string HeliState::s_heliId = "HELI";
 
 HeliState::HeliState()
 {
 }
-
 
 HeliState::~HeliState()
 {
@@ -26,7 +24,7 @@ void HeliState::update()
 	}
 	if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_ESCAPE))
 	{
-		Game::Instance()->getStateMachine()->changeState(new MenuState());
+		Game::Instance()->getStateMachine()->changeState(new MainMenuState());
 	}
 	if (checkCollision(dynamic_cast<SDLGameObject*>(m_gameObjects[0]), dynamic_cast<SDLGameObject*>(m_gameObjects[1])))
 	{
@@ -44,7 +42,10 @@ void HeliState::render()
 
 bool HeliState::onEnter()
 {
+	StateParser stateParser;
+	stateParser.parseState("assets/data.xml", s_heliId, &m_gameObjects, &m_textureIdList);
 
+	/*
 	if (!TextureManager::Instance()->load("assets/helicopter-spritesheet.png", "HELI", Game::Instance()->getRenderer()))
 	{
 		return false;
@@ -53,10 +54,12 @@ bool HeliState::onEnter()
 	{
 		return false;
 	}
+	
 	GameObject* pHeli = new Heli(new LoaderParams(100, 100, 423, 150, "HELI"));
 	GameObject* pEnemy = new Enemy(new LoaderParams(600, 0, 120, 120, "FFV"));
 	m_gameObjects.push_back(pHeli);
 	m_gameObjects.push_back(pEnemy);
+	*/
 	return true;
 }
 

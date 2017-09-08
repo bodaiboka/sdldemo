@@ -1,8 +1,8 @@
 #pragma once
 #include <vector>
-#include "GameState.h"
+#include "MenuState.h"
 #include "GameObject.h"
-class GameOverState : public GameState
+class GameOverState : public MenuState
 {
 public:
 	GameOverState();
@@ -20,7 +20,7 @@ private:
 	static const std::string s_gameOverId;
 	static void s_gameOverToMain();
 	static void s_restartPlay();
-
+	virtual void setCallbacks(const std::vector<Callback>& callbacks);
 	std::vector<GameObject*> m_gameObjects;
 };
 

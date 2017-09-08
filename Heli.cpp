@@ -1,11 +1,10 @@
 #include "Heli.h"
 #include "InputHandler.h"
 
-Heli::Heli(const LoaderParams* pParams) :
-	SDLGameObject(pParams)
+Heli::Heli() :
+	SDLGameObject()
 {
 }
-
 
 Heli::~Heli()
 {
@@ -40,4 +39,9 @@ void Heli::handleInput()
 	Vector2D* target = TheInputHandler::Instance()->getMousePosition();
 	m_velocity = *target - m_position;
 	m_velocity /= 50;
+}
+
+void Heli::load(const LoaderParams * pParams)
+{
+	SDLGameObject::load(pParams);
 }

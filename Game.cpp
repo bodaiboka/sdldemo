@@ -1,7 +1,12 @@
 #include "Game.h"
 #include "InputHandler.h"
-#include "MenuState.h"
+#include "MainMenuState.h"
 #include "PlayState.h"
+#include "GameObjectFactory.h"
+#include "MenuButton.h"
+#include "Heli.h"
+#include "AnimatedGraphic.h"
+
 using namespace std;
 Game::Game()
 {
@@ -52,9 +57,16 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		return false;
 	}
 	cout << "init success\n";
-	
+
+	TheGameObjectFactory::Instance()->registerType("MenuButton", new MenuBUttonCreator());
+	TheGameObjectFactory::Instance()->registerType("Player", new PlayerCreator());
+	TheGameObjectFactory::Instance()->registerType("Enemy", new EnemyCreator());
+	TheGameObjectFactory::Instance()->registerType("SDLGameObject", new SDLGameObjectCreator());
+	TheGameObjectFactory::Instance()->registerType("Heli", new HeliCreator());
+	TheGameObjectFactory::Instance()->registerType("AnimatedGraphic", new AnimatedGraphicCreator());
+
 	m_pGameStateMachine = new GameStateMachine();
-	m_pGameStateMachine->changeState(new MenuState());
+	m_pGameStateMachine->changeState(new MainMenuState());
 
 	TheInputHandler::Instance()->initialiseJoysticks();
 
@@ -75,38 +87,12 @@ void Game::handleEvents()
 void Game::update()
 {
 	m_pGameStateMachine->update();
-	/*
-	for (GameObject* object : m_gameObjects)
-	{
-		object->update();
-	}
-	*/
-	//m_currentFrame = int(((SDL_GetTicks() / 70) % 6));
 }
 
 void Game::render()
 {
-	// clear the window to drawColor
 	SDL_RenderClear(m_pRenderer);
-
-	// draw texture
-	//SDL_RenderCopy(m_pRenderer, m_pTexture, &m_sourceRect, &m_destinationRect);
-	//SDL_RenderCopy(m_pRenderer, m_pTexture, 0, 0);
-	//SDL_RenderCopyEx(m_pRenderer, m_pTexture, &m_sourceRect, &m_destinationRect, 0, 0, SDL_FLIP_HORIZONTAL);
-	//TextureManager::Instance()->draw(CAT_TEXTURE, 0, 0, 128, 128, m_pRenderer);
-	//TextureManager::Instance()->drawFrame(CAT_TEXTURE, 300, 160, 128, 128, 0, m_currentFrame, m_pRenderer);
-
-	/*
-	for (GameObject* object : m_gameObjects)
-	{
-		object->draw();
-	}
-	*/
-
 	m_pGameStateMachine->render();
-
-
-	// show the window
 	SDL_RenderPresent(m_pRenderer);
 }
 

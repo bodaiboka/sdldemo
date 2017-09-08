@@ -1,9 +1,9 @@
 #pragma once
 #include <vector>
-#include "GameState.h"
+#include "MenuState.h"
 #include "GameObject.h"
 
-class PauseState : public GameState
+class PauseState : public MenuState
 {
 public:
 	PauseState();
@@ -20,6 +20,7 @@ public:
 private:
 	static const std::string s_pauseId;
 	std::vector<GameObject*> m_gameObjects;
+	virtual void setCallbacks(const std::vector<Callback>& callbacks);
 	static void s_pauseToMain();
 	static void s_resumePlay();
 };

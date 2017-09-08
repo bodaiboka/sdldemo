@@ -1,7 +1,7 @@
 #include "Player.h"
 #include "InputHandler.h"
-Player::Player(const LoaderParams* pParams) :
-	SDLGameObject(pParams)
+
+Player::Player() : SDLGameObject()
 {
 }
 
@@ -76,4 +76,9 @@ void Player::handleInput()
 	{
 		m_bHorizontalFlip = false;
 	}
+}
+
+void Player::load(const LoaderParams * pParams)
+{
+	SDLGameObject::load(pParams);
 }
